@@ -36,6 +36,7 @@ import { Database } from "./storage/db"
 import { errorMessage } from "./util/error"
 import { PluginCommand } from "./cli/cmd/plug"
 import { Heap } from "./cli/heap"
+import { firstRunSetup } from "./cli/setup"
 
 process.on("unhandledRejection", (e) => {
   Log.Default.error("rejection", {
@@ -82,6 +83,10 @@ const cli = yargs(args)
     describe: "run without external plugins",
     type: "boolean",
   })
+  .option("refresh", {
+    describe: "refresh available models from the API",
+    type: "boolean",
+  })
   .middleware(async (opts) => {
     if (opts.pure) {
       process.env.OPENCODE_PURE = "1"
@@ -96,6 +101,8 @@ const cli = yargs(args)
         return "INFO"
       })(),
     })
+
+    if (process.stderr.isTTY) await firstRunSetup(opts.refresh)
 
     Heap.start()
 

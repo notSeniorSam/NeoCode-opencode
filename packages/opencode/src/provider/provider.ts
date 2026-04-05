@@ -782,6 +782,16 @@ export namespace Provider {
             },
           },
         }),
+      organization: Effect.fnUntraced(function* () {
+        const auth = yield* dep.auth("organization")
+        const cfg = yield* dep.config()
+        const apiKey = auth?.type === "api" ? auth.key : cfg.provider?.["organization"]?.options?.apiKey
+        const baseURL = cfg.provider?.["organization"]?.options?.baseURL ?? ""
+        return {
+          autoload: !!(apiKey && baseURL),
+          options: { apiKey, baseURL },
+        }
+      }),
     }
   }
 

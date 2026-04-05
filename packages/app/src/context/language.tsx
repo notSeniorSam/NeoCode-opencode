@@ -33,25 +33,7 @@ function cookie(locale: Locale) {
   return `oc_locale=${encodeURIComponent(locale)}; Path=/; Max-Age=31536000; SameSite=Lax`
 }
 
-const LOCALES: readonly Locale[] = [
-  "en",
-  "zh",
-  "zht",
-  "ko",
-  "de",
-  "es",
-  "fr",
-  "da",
-  "ja",
-  "pl",
-  "ru",
-  "bs",
-  "ar",
-  "no",
-  "br",
-  "th",
-  "tr",
-]
+const LOCALES: readonly Locale[] = ["en"]
 
 const INTL: Record<Locale, string> = {
   en: "en",

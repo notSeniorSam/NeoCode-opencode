@@ -63,6 +63,7 @@ console.log(`Loaded ${migrations.length} migrations`)
 const singleFlag = process.argv.includes("--single")
 const baselineFlag = process.argv.includes("--baseline")
 const skipInstall = process.argv.includes("--skip-install")
+const noArm = process.argv.includes("--no-arm")
 const plugin = createSolidTransformPlugin()
 const skipEmbedWebUi = process.argv.includes("--skip-embed-web-ui")
 
@@ -173,7 +174,7 @@ const targets = singleFlag
 
       return true
     })
-  : allTargets
+  : allTargets.filter((item) => !(noArm && item.arch === "arm64"))
 
 await $`rm -rf dist`
 
